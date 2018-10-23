@@ -1,0 +1,46 @@
+{
+  "name": "nxus-geocoding",
+  "version": "4.0.0",
+  "description": "Geocoding support for nxus apps",
+  "main": "lib",
+  "scripts": {
+    "preversion": "npm test",
+    "postversion": "npm run build-docs && git push && git push --tags",
+    "test": "jest --runInBand --forceExit",
+    "compile": "babel src --out-dir lib",
+    "prepublish": "npm run compile",
+    "postpublish": "npm run build-docs && npm run publish-docs",
+    "build-docs": "NAME=\"${NAME:-$npm_package_name}\" VERSION=\"${VERSION:-$npm_package_version}\" && documentation readme ./src/index.js --readme-file ./README.md --project-name ${NAME} --project-version ${VERSION} --section ${NAME} --markdown-toc false",
+    "publish-docs": "npm run build-docs && git add ./README.md && git commit -m 'Updated README API Docs' && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seabourne/nxus-geocoding.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seabourne/nxus-geocoding/issues"
+  },
+  "homepage": "https://github.com/seabourne/nxus-geocoding/",
+  "dependencies": {
+    "bluebird": "^3.3.5",
+    "lodash": "^4.17.11",
+    "nxus-core": "^4.0.0",
+    "nxus-router": "^4.0.0",
+    "nxus-storage": "^4.0.0",
+    "nxus-templater": "^4.0.0",
+    "nxus-users": "^4.0.0",
+    "nxus-web": "^4.0.0",
+    "request-promise-native": "^1.0.5",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "documentation": "^6.1.0",
+    "jest": "^23.6.0",
+    "nxus-tester-jest": "^4.0.1"
+  }
+}

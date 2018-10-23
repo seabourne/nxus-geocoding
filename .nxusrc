@@ -1,0 +1,29 @@
+{
+  "siteName": "Nxus App",
+  "host": "localhost",
+  "baseUrl": "localhost:3001",
+  "sendgrid": {
+    "apiUsername": "",
+    "apiPassword": ""
+  },
+  "storage": {
+    "adapters": {
+      "default": "sails-mongo"
+    },
+    "connections": {
+      "default": {
+        "adapter": "default"
+      }
+    }
+  },
+  "worker_queue": {
+    "redis_url": "redis://localhost:6379"
+  },
+  "geocoding": {
+    "routePrefix": "/geocode",
+    "geocodeURL": "",
+    "locationURL": "",
+    "matrixURL": "",
+    "geocodeKey": ""
+  }
+}
