@@ -21,9 +21,10 @@
   },
   "geocoding": {
     "routePrefix": "/geocode",
-    "geocodeURL": "",
-    "locationURL": "",
-    "matrixURL": "",
-    "geocodeKey": ""
+    "geocodeURL": "http://localhost:3002/mock/geo",
+    "geocodeKey": "",
+    "locationURL": "http://polygons.openstreetmap.fr/get_geojson.py",
+    "matrixURL": "https://graphhopper.com/api/1/geocode",
+    "matrixKey": ""
   }
 }

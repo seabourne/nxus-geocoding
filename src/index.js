@@ -234,7 +234,7 @@ class Geocoding extends HasModels {
   _userConfig() {
     return {
       routePrefix: '/geocode',
-      geocodeURL: 'https://graphhopper.com/api/1/geocode',
+      geocodeURL: 'https://graphhopper.com/api/1/geocode?provider=opencagedata',
       geocodeKey: '',
       locationURL: 'http://polygons.openstreetmap.fr/get_geojson.py',
       matrixURL: 'https://graphhopper.com/api/1/geocode',
@@ -290,7 +290,7 @@ class Geocoding extends HasModels {
       let feature = await this.models.FeatureCache.findOne({uid})
       if (feature) {
         this._mungeOSMProperties(feature)
-        feature = pick(feature, ['properties', 'geometry'])
+        feature = pick(feature, ['properties', 'geometry', 'uid'])
         feature.type = 'Feature'
         return feature
       }
