@@ -234,10 +234,11 @@ class Geocoding extends HasModels {
   _userConfig() {
     return {
       routePrefix: '/geocode',
-      geocodeURL: '',
-      locationURL: '',
-      matrixURL: '',
-      geocodeKey: ''
+      geocodeURL: 'https://graphhopper.com/api/1/geocode?provider=opencagedata',
+      geocodeKey: '',
+      locationURL: 'http://polygons.openstreetmap.fr/get_geojson.py',
+      matrixURL: 'https://graphhopper.com/api/1/geocode',
+      matrixKey: ''
     }
   }
 
@@ -252,8 +253,8 @@ class Geocoding extends HasModels {
    * @return {Array} array of matching GeoJSON Feature objects
    */
   async geocodeAddress(address, opts={}) {
-    let [uri, params] = splitURL(app.config.geocoding.geocodeURL),
-        qs = Object.assign(params, {key: app.config.geocoding.geocodeKey, q: address})
+    let [uri, params] = splitURL(this.config.geocodeURL),
+        qs = Object.assign(params, {key: this.config.geocodeKey, q: address})
     if (opts.location) {
       let point = opts.location.properties && opts.location.properties.point
       if (point) qs.point = `${point.lat},${point.lng}`
@@ -289,7 +290,7 @@ class Geocoding extends HasModels {
       let feature = await this.models.FeatureCache.findOne({uid})
       if (feature) {
         this._mungeOSMProperties(feature)
-        feature = pick(feature, ['properties', 'geometry'])
+        feature = pick(feature, ['properties', 'geometry', 'uid'])
         feature.type = 'Feature'
         return feature
       }
@@ -327,11 +328,11 @@ class Geocoding extends HasModels {
         let fromPoint = pickPoint(fromFeature),
             toPoint = pickPoint(toFeature)
         if (fromPoint && toPoint) {
-          let [uri, params] = splitURL(app.config.geocoding.matrixURL),
+          let [uri, params] = splitURL(this.config.matrixURL),
               options = {
                 uri,
                 qs: Object.assign(params, {
-                  key: app.config.geocoding.matrixKey,
+                  key: this.config.matrixKey,
                   from_point: fromPoint,
                   to_point: toPoint,
                   out_array: 'distances' }),
@@ -373,7 +374,7 @@ class Geocoding extends HasModels {
     else {
       if (feature) this.log.debug('location service: feature cached, no geometry')
       if (uid.startsWith('osm:')) {
-        let [uri, params] = splitURL(app.config.geocoding.locationURL),
+        let [uri, params] = splitURL(this.config.locationURL),
             options = {
               uri,
               qs: Object.assign(params, {id: uid.substring(4)}),
