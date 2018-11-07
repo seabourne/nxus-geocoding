@@ -10,7 +10,9 @@ async function createUser (email, password = 'test', admin=false) {
 //mocked response so not really used but for ref
 let testAddress = '206 Washington St SW, Atlanta, GA'
 let uid = "osm:54032749"
+
 let req
+
 describe('Integration', () => {
   beforeAll(async () => {
     let email = 'test@example.com'
